@@ -12,3 +12,4 @@ Map 2:
 ![image](https://github.com/Roy-pro/3d/assets/66637613/23551455-b4b4-414e-9470-375b4e257785)
 
 Map 3:
+![image](https://github.com/Roy-pro/3d/assets/66637613/8c934843-ee9b-496c-b271-aa9be225a204)
