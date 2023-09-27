@@ -18,6 +18,21 @@
     @import url(http://localhost:8080/3d/libs/Cesium-1.109/Apps/Sandcastle/CesiumSandcastle.css);
 
     @import url(http://localhost:8080/3d/libs/Cesium-1.109/Apps/Sandcastle/templates/bucket.css);
+    .back {
+  position: absolute;
+  margin: 50px;
+  margin-right: -190px;
+  width: 25%;
+  top: 0;
+  right: 0;
+  padding: 5 px;
+  color:#fff;
+}
+
+      a{
+        color:#000000;
+        text-shadow: 0 0 3px #FFF, 0 0 5px #0000FF;
+      }
 </style>
 
 <body>
@@ -26,6 +41,10 @@
         <h1>Loading...</h1>
     </div>
     <div id="toolbar"></div>
+
+    <div class="back">
+        <a href="index.html"><h3>Go back to Landing Page -></h3></a>
+      </div>
    	<script type="text/javascript">
 	
  var viewer = new Cesium.Viewer("cesiumContainer",{

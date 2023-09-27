@@ -35,6 +35,21 @@
         background-color: #fff;
         border-radius: 3px;
       }
+      .back {
+  position: absolute;
+  margin: 10px;
+  width: 25%;
+  right: 0;
+  top: 0;
+  padding: 5 px;
+  color:#fff;
+}
+
+      a{
+        color:#fff;
+        text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+      }
+
     </style>
   </head>
 
@@ -45,14 +60,16 @@
       <div><strong>Location:</strong>&nbsp;<span id="loc"></span></div>
       <div><strong>Date:</strong>&nbsp;<span id="date"></span></div>
     </div>
-
+    <div class="back">
+      <a href="index.html"><h3>Go back to Landing Page -></h3></a>
+    </div>
     <script>
       mapboxgl.accessToken = 'pk.eyJ1IjoiYWJyaXR0aXJveSIsImEiOiJjbG4wZW9qZnUwaDU3Mm9tdnQ3amZjZXlqIn0.ihfyQg3gyPdoEoJSxs0sug';
       const map = new mapboxgl.Map({
         container: 'map', // Specify the container ID
         style: 'mapbox://styles/mapbox/streets-v12', // Specify which map style to use
         center: [-122.44121, 37.76132], // Specify the starting position [lng, lat]
-        zoom: 3.5 // Specify the starting zoom
+        zoom: 1.5 // Specify the starting zoom
       });
 
       // We only want to return earthquakes that happened in the last week

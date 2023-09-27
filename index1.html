@@ -32,6 +32,20 @@
   overflow-y: scroll;
 }
 
+.back {
+  position: absolute;
+  margin: 10px;
+  width: 25%;
+  right: 0;
+  top: 0;
+  padding: 5 px;
+  color:#fff;
+}
+
+      a{
+        color:#000000;
+        text-shadow: 0 0 3px #FFF, 0 0 5px #0000FF;
+      }
   </style>
 </head>
 
@@ -44,6 +58,9 @@
       accurate route match, draw points at regular intervals.
     </p>
     <div id="directions"></div>
+  </div>
+  <div class="back">
+    <a href="index.html"><h3>Go back to Landing Page -></h3></a>
   </div>
   <script>
     // Add your Mapbox access token
