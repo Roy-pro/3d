@@ -90,9 +90,30 @@ Sandcastle.addToolbarMenu(
     [{
             text: "Select Layer",
             onselect: function() {
+                
+            }
+        },
+        {
+            text: "Countries",
+            onselect: function() {
                 viewer.dataSources.add(
                     Cesium.GeoJsonDataSource.load(
                         "countries.geojson"
+                    )
+                );
+            }
+        },
+        {
+            text: "Populated Places",
+            onselect: function() {
+                viewer.dataSources.add(
+                    Cesium.GeoJsonDataSource.load(
+                        "countries.geojson"
+                    )
+                );
+                viewer.dataSources.add(
+                    Cesium.GeoJsonDataSource.load(
+                        "populatedplaces.geojson"
                     )
                 );
             }
