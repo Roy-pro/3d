@@ -338,7 +338,7 @@ Sandcastle.addToolbarMenu(
                         }
                     });
 
-                /* var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
+                var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
 
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(-97.98, 18.55, 4300000),
@@ -347,17 +347,7 @@ Sandcastle.addToolbarMenu(
                         pitch: Cesium.Math.toRadians(-65.0),
                         roll: 0.0,
                     },
-                }); */
-                var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
-
-viewer.camera.flyTo({
-    destination: Cesium.Cartesian3.fromDegrees(-97.98, 18.55, 4300000),
-    orientation: {
-        heading: Cesium.Math.toRadians(0),
-        pitch: Cesium.Math.toRadians(-65.0),
-        roll: 0.0,
-    },
-});
+                }); 
 
             }
         },
