@@ -90,43 +90,194 @@ Sandcastle.addToolbarMenu(
     [{
             text: "Select Layer",
             onselect: function() {
-                
             }
         },
         {
             text: "Countries",
             onselect: function() {
-                viewer.dataSources.add(
-                    Cesium.GeoJsonDataSource.load(
-                        "countries.geojson"
-                    )
+                Cesium.Math.setRandomNumberSeed(0);
+                var countries = Cesium.GeoJsonDataSource.load(
+                    "countries.geojson"
                 );
+                countries
+                    .then(function(dataSource) {
+                        viewer.dataSources.add(dataSource);
+
+                        //Get the array of entities
+                        var entities = dataSource.entities.values;
+
+                        var colorHash = {};
+                        for (var i = 0; i < entities.length; i++) {
+                            //For each entity, create a random color based on the state name.
+                            //Some states have multiple entities, so we store the color in a
+                            //hash so that we use the same color for the entire state.
+                            var entity = entities[i];
+                            var name = entity.name;
+                            var color = colorHash[name];
+                            if (!color) {
+                                color = Cesium.Color.fromRandom({
+                                    alpha: 0.50,
+                                });
+                                colorHash[name] = color;
+                            }
+
+                            //Set the polygon material to our random color.
+                            entity.polygon.material = color;
+                            //Remove the outlines.
+                            entity.polygon.outline = true;
+
+                        }
+                    })
+                    .otherwise(function(error) {
+                        //Display any errrors encountered while loading.
+                        window.alert(error);
+                    });
             }
         },
         {
-            text: "Populated Places",
-            onselect: function() {
-                viewer.dataSources.add(
-                    Cesium.GeoJsonDataSource.load(
-                        "countries.geojson"
-                    )
-                );
-                viewer.dataSources.add(
-                    Cesium.GeoJsonDataSource.load(
-                        "populatedplaces.geojson"
-                    )
-                );
+    text: "Populated Places",
+    onselect: function () {
+        Cesium.Math.setRandomNumberSeed(0);
+
+        // Load countries data
+        var countries = Cesium.GeoJsonDataSource.load("countries.geojson");
+        countries.then(function (countriesDataSource) {
+            viewer.dataSources.add(countriesDataSource);
+
+            // Customize the appearance of countries
+            var countriesEntities = countriesDataSource.entities.values;
+            var countryColorHash = {};
+            for (var i = 0; i < countriesEntities.length; i++) {
+                var countryEntity = countriesEntities[i];
+                var countryName = countryEntity.name;
+                var countryColor = countryColorHash[countryName];
+                if (!countryColor) {
+                    countryColor = Cesium.Color.fromRandom({
+                        alpha: 0.25,
+                    });
+                    countryColorHash[countryName] = countryColor;
+                }
+
+                // Set the polygon material to a random color for countries
+                countryEntity.polygon.material = countryColor;
+                // Remove the outlines.
+                countryEntity.polygon.outline = true;
+            }
+        });
+
+        // Load populated places data
+        Cesium.Math.setRandomNumberSeed(0);
+        var populated = Cesium.GeoJsonDataSource.load("populatedplaces.geojson");
+        populated.then(function (populatedDataSource) {
+            viewer.dataSources.add(populatedDataSource);
+
+            // Get the array of entities
+            var populatedEntities = populatedDataSource.entities.values;
+
+            for (var i = 0; i < populatedEntities.length; i++) {
+                var entity = populatedEntities[i];
+                var properties = entity.properties;
+
+                // Check if the entity has the 'capalt' property
+                if (properties && properties.capalt) {
+                    var featureClass = properties.capalt.getValue();
+
+                    // Create a translucent polygon to cover the entire icon
+                    entity.polygon = {
+                        hierarchy: entity.position.getValue(),
+                        material: Cesium.Color.fromCssColorString("rgba(0, 0, 255, 0.5)"),
+                        height: 100000, // Adjust the height as needed
+                        outline: false,
+                    };
+
+                    // Customize the icon based on the 'capalt' property
+                    switch (featureClass) {
+                        case 'Admin-0 region capital':
+                            // Customize the icon for this case
+                            entity.billboard = {
+                                image: 'pin.png', // Change this to the path of your icon
+                                scale: 0.04, // Adjust the scale as needed
+                                verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // Adjust as needed
+                            };
+                            break;
+
+                        // Add more cases as needed
+
+                        default:
+                            // Default icon
+                            entity.billboard = {
+                                image: 'pin.png', // Change this to the path of your default icon
+                                scale: 0.04,
+                                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                            };
+                            break;
+                    }
+
+                    // Make the icon clickable
+                    entity.billboard.pixelOffset = new Cesium.Cartesian2(0, 0);
+                    entity.billboard.eyeOffset = new Cesium.Cartesian3(0, 0, 0);
+                    entity.billboard.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
+
+                    // Set opacity of the polygon material to 50%
+                    /* entity.polygon.material.alpha = 0.5; */
+                }
+            }
+        });
+    var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
+
+                viewer.camera.flyTo({
+                    destination: Cesium.Cartesian3.fromDegrees(-97.98, 18.55, 4300000),
+                    orientation: {
+                        heading: Cesium.Math.toRadians(0),
+                        pitch: Cesium.Math.toRadians(-65.0),
+                        roll: 0.0,
+                    },
+					easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+                    duration: 5
+                });
+
             }
         },
+
+
+               
         {
             text: "USA Population-Simple Style",
             onselect: function() {
 
-                viewer.dataSources.add(
-                    Cesium.GeoJsonDataSource.load(
-                        "usa.geojson"
-                    )
+                Cesium.Math.setRandomNumberSeed(0);
+                var usa = Cesium.GeoJsonDataSource.load(
+                    "usa.geojson"
                 );
+                usa
+                    .then(function(dataSource) {
+                        viewer.dataSources.add(dataSource);
+
+                        //Get the array of entities
+                        var entities = dataSource.entities.values;
+
+                        var colorHash = {};
+                        for (var i = 0; i < entities.length; i++) {
+                            //For each entity, create a random color based on the state name.
+                            //Some states have multiple entities, so we store the color in a
+                            //hash so that we use the same color for the entire state.
+                            var entity = entities[i];
+                            var name = entity.name;
+                            var color = colorHash[name];
+                            if (!color) {
+                                color = Cesium.Color.fromRandom({
+                                    alpha: 0.50,
+                                });
+                                colorHash[name] = color;
+                            }
+
+                            //Set the polygon material to our random color.
+                            entity.polygon.material = color;
+                            //Remove the outlines.
+                            entity.polygon.outline = true;
+
+                        }
+                    });
                 /* viewer.camera.lookAt(
    Cesium.Cartesian3.fromDegrees(-98.0, 40.0),
     new Cesium.Cartesian3(0.0, -4790000.0, 3930000.0)
@@ -185,13 +336,9 @@ Sandcastle.addToolbarMenu(
                             entity.polygon.extrudedHeight =
                                 entity.properties.PERSONS / 50.0;
                         }
-                    })
-                    .otherwise(function(error) {
-                        //Display any errrors encountered while loading.
-                        window.alert(error);
                     });
 
-                var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
+                /* var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
 
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(-97.98, 18.55, 4300000),
@@ -200,10 +347,17 @@ Sandcastle.addToolbarMenu(
                         pitch: Cesium.Math.toRadians(-65.0),
                         roll: 0.0,
                     },
-					easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
-                    duration: 5
-                });
+                }); */
+                var rectangle = Cesium.Rectangle.fromDegrees(-126.6, 21.76, -65.44, 52.64);
 
+viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(-97.98, 18.55, 4300000),
+    orientation: {
+        heading: Cesium.Math.toRadians(0),
+        pitch: Cesium.Math.toRadians(-65.0),
+        roll: 0.0,
+    },
+});
 
             }
         },
