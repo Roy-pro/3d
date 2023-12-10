@@ -93,6 +93,122 @@ Sandcastle.addToolbarMenu(
             }
         },
         {
+            text: "Buildings",
+            onselect: function() {
+               /*  viewer.dataSources.add(
+                    Cesium.GeoJsonDataSource.load(
+                        "building.geojson"
+                    )
+                ); */
+
+                var buildings = Cesium.GeoJsonDataSource.load({
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [77.60976863481017, 13.001009267815348],
+            [77.60712970270686, 12.99692317939732],
+            [77.61044964954651, 12.996667798871194],
+            [77.61181167901918, 12.998710843080207],
+            [77.60976863481017, 13.001009267815348],
+          ],
+        ],
+      },
+      properties: { id: 1, Build_name: "A", Height: 100 },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [77.60227747271045, 12.998114955185912],
+            [77.60159645797411, 12.994113993609925],
+            [77.60517178533989, 12.996327291503025],
+            [77.60227747271045, 12.998114955185912],
+          ],
+        ],
+      },
+      properties: { id: 2, Build_name: "B", Height: 200 },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [77.60636356112848, 12.994028866767884],
+            [77.60551229270806, 12.990794046770278],
+            [77.60832147849545, 12.98934689045556],
+            [77.61096041059876, 12.991900695716827],
+            [77.60908762007384, 12.994539627820137],
+            [77.60636356112848, 12.994028866767884],
+          ],
+        ],
+      },
+      properties: { id: 3, Build_name: "C", Height: 30 },
+    },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [77.60712970270686, 12.99692317939732],
+            [77.60636356112848, 12.994028866767884],
+            [77.60908762007384, 12.994539627820137],
+            [77.61044964954651, 12.996667798871194],
+            [77.60712970270686, 12.99692317939732],
+          ],
+        ],
+      },
+      properties: { id: 4, Build_name: "D", Height: 40 },
+    },
+  ],
+});
+
+viewer.dataSources.add(buildings);
+
+buildings.then(function (dataSource) {
+  var entities = dataSource.entities.values;
+
+  for (var i = 0; i < entities.length; i++) {
+    var entity = entities[i];
+    var height = entity.properties.Height || 0;
+
+    // Set the polygon height and material
+    entity.polygon.height = 0; // Set the base height to 0
+    entity.polygon.extrudedHeight = height; // Extrude from the base to the height
+    entity.polygon.material = Cesium.Color.fromRandom({
+      alpha: 1.0,
+    });
+    entity.polygon.outline = false;
+  }
+
+  // Set camera position
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(
+      77.6100, // Longitude
+      12.9350, // Latitude
+      5000.0 // Height
+    ),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-35.0),
+      roll: 0.0,
+    },
+    easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+    duration: 5,
+  });
+})
+
+            }
+        },
+        {
             text: "Countries",
             onselect: function() {
                 Cesium.Math.setRandomNumberSeed(0);
